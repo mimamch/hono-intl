@@ -1,0 +1,32 @@
+{
+  "name": "hono-intl",
+  "version": "0.0.1",
+  "description": "A Hono middleware for internationalization",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "tsc --noEmit"
+  },
+  "author": "mimamch",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mimamch/hono-intl.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "peerDependencies": {
+    "hono": ">=3.9.0"
+  },
+  "devDependencies": {
+    "@hono/node-server": "^1.18.1",
+    "hono": "^4.8.12",
+    "typescript": "^5.9.2"
+  }
+}
