@@ -1,5 +1,5 @@
 {
-  "exclude": ["./src/test/*", "dist/*"],
+  "exclude": ["src/example/*", "dist/*"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
@@ -109,7 +109,6 @@
     "experimentalDecorators": true,
     "noEmitOnError": true,
     "noUnusedLocals": false,
-    "noUnusedParameters": true,
     "types": []
   }
 }

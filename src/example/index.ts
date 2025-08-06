@@ -3,9 +3,9 @@ import { serve } from "@hono/node-server";
 
 import { intlMiddleware } from "./intl.middleware";
 
-const app = new Hono().get("/", intlMiddleware("nested"), async (c) => {
+const app = new Hono().get("/", intlMiddleware("global"), async (c) => {
   return c.json({
-    message: c.get("intl").get("deeper.value"),
+    message: c.get("intl").get("welcome"),
   });
 });
 
