@@ -1,4 +1,4 @@
-# 🌍 Hono Intl
+# 🌍 Hono Internationalization (i18n) Library
 
 A powerful and type-safe internationalization (i18n) middleware for [Hono](https://hono.dev/) applications. Features automatic locale detection, namespace support, and seamless TypeScript integration.
 
