@@ -105,7 +105,6 @@
     "composite": true,
     "moduleResolution": "bundler",
     "emitDecoratorMetadata": true,
-    "emitDeclarationOnly": true,
     "experimentalDecorators": true,
     "noEmitOnError": true,
     "noUnusedLocals": false,
