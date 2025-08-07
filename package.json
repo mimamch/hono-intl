@@ -1,6 +1,6 @@
 {
   "name": "hono-intl",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A Hono middleware for internationalization",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,9 @@
   ],
   "scripts": {
     "build": "tsc",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "test": "vitest",
+    "test:watch": "vitest --watch"
   },
   "author": "mimamch",
   "license": "MIT",
@@ -28,5 +30,8 @@
     "@hono/node-server": "^1.18.1",
     "hono": "^4.8.12",
     "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "vitest": "^3.2.4"
   }
 }

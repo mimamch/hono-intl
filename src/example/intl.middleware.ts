@@ -3,12 +3,12 @@ import { en_us } from "./messages/en_us";
 import { fr } from "./messages/fr";
 import { id } from "./messages/id";
 
-export const intlMiddleware = createIntlMiddleware<typeof en_us>({
-  languages: ["en", "fr", "id"],
-  defaultLanguage: "en",
+export const intlMiddleware = createIntlMiddleware({
+  locales: ["en-US", "id-ID", "fr-FR"],
+  defaultLocale: "en-US",
   messages: {
-    en: en_us,
-    fr: fr,
-    id: id,
+    "id-ID": id,
+    "en-US": en_us,
+    "fr-FR": fr,
   },
 });

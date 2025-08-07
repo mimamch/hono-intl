@@ -1,14 +1,13 @@
 import { createMiddleware } from "hono/factory";
-import { NestedKeys } from "./intl";
-import { HonoRequest } from "hono";
 import {
   MessageKeys,
   NamespacedMessageKeys,
-  NamespacedValue,
   NamespaceKeys,
   NestedKeyOf,
-  NestedValueOf,
 } from "./types/message-keys";
+import {} from "./types/app-config";
+import { DefaultLocale } from "./types/locales";
+import { detectLocale } from "./detect-locale";
 
 type Variables<Keys> = {
   intl: {
@@ -17,61 +16,70 @@ type Variables<Keys> = {
 };
 
 export const createIntlMiddleware = <
-  Message,
-  Messages extends Record<Language, Message> = Record<string, Message>,
-  Language extends string = string
+  const L extends readonly (DefaultLocale | (string & {}))[],
+  const M extends Record<L[number], Record<string, any>>
 >(props: {
-  languages: Language[];
-  defaultLanguage: Language;
-  messages: Messages;
-  selectLanguage?: (request: { headers: Record<string, unknown> }) => Language;
+  locales: L;
+  defaultLocale: L[number];
+  messages: M;
+  selectLocale?: (request: { headers: Record<string, unknown> }) => L[number];
 }) => {
-  const middleware = <
-    N extends
-      | NamespaceKeys<Message, NestedKeyOf<Message>>
-      | undefined = undefined
-  >(
-    namespace?: N
-  ) =>
-    createMiddleware<{
+  type Message = M[L[number]];
+  type AllNamespaces = NamespaceKeys<Message, NestedKeyOf<Message>>;
+
+  return function intlMiddleware<
+    N extends AllNamespaces | undefined = undefined
+  >(namespace?: N) {
+    return createMiddleware<{
       Variables: Variables<
-        // condition if NestedKey is provided
         N extends undefined
           ? MessageKeys<Message, NestedKeyOf<Message>>
           : NamespacedMessageKeys<Message, N>
       >;
     }>(async (c, next) => {
-      const selectLanguage =
-        props.selectLanguage || (() => props.defaultLanguage);
-      const language = selectLanguage({
+      const selectLocale =
+        props.selectLocale ||
+        ((request) => {
+          const acceptLanguage = request.headers["accept-language"] as string;
+          return detectLocale(
+            acceptLanguage,
+            [...props.locales],
+            props.defaultLocale
+          ) as L[number];
+        });
+
+      const language = selectLocale({
         headers: c.req.header(),
       });
-      const messages =
-        props.messages[language] || props.messages[props.defaultLanguage];
 
-      if (!messages) {
-        throw new Error(
-          `No messages found for language: ${language}. Please provide messages for this language.`
-        );
-      }
+      const messages =
+        props.messages[language] || props.messages[props.defaultLocale] || {};
+
       c.set("intl", {
         get: (key, params) => {
-          // If namespace is provided, we need to resolve the key within that namespace
           const fullKey: string =
             namespace !== undefined ? `${namespace}.${key}` : key;
 
           const message = getMessage(messages, fullKey);
 
-          return message.replace(/\{(\w+)\}/g, (match: string, k: string) =>
-            String((params ?? {})[k] ?? match)
-          );
+          // If message is the same as fullKey, it means message was not found
+          // In case of namespace usage, return just the key without namespace
+          if (message === fullKey && namespace !== undefined) {
+            return key as string;
+          }
+
+          return message.replace(/\{(\w+)\}/g, (match: string, k: string) => {
+            const value = (params ?? {})[k];
+            // Handle null and undefined explicitly - both should remain as placeholders
+            if (value === null || value === undefined) return match;
+            return String(value);
+          });
         },
       });
 
       await next();
     });
-
-  return middleware;
+  };
 };
 
 const getMessage = (message: any, key: any): string => {

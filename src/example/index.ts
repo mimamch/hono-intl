@@ -5,7 +5,7 @@ import { intlMiddleware } from "./intl.middleware";
 
 const app = new Hono().get("/", intlMiddleware("global"), async (c) => {
   return c.json({
-    message: c.get("intl").get("welcome"),
+    message: c.get("intl").get("goodbye"),
   });
 });
 
