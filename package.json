@@ -1,23 +1,45 @@
 {
   "name": "hono-intl",
-  "version": "0.0.4",
-  "description": "A Hono middleware for internationalization",
+  "version": "0.0.5",
+  "description": "A powerful and type-safe internationalization (i18n) middleware for Hono applications with automatic locale detection and namespace support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "hono",
+    "i18n",
+    "internationalization",
+    "middleware",
+    "typescript",
+    "locale",
+    "translation",
+    "accept-language",
+    "web",
+    "framework"
   ],
   "scripts": {
     "build": "tsc",
     "lint": "tsc --noEmit",
     "test": "vitest",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "prepublishOnly": "npm run build && npm test"
   },
-  "author": "mimamch",
+  "author": {
+    "name": "mimamch",
+    "url": "https://github.com/mimamch"
+  },
   "license": "MIT",
+  "homepage": "https://github.com/mimamch/hono-intl#readme",
+  "bugs": {
+    "url": "https://github.com/mimamch/hono-intl/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "git@github.com:mimamch/hono-intl.git"
+    "url": "git+https://github.com/mimamch/hono-intl.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",

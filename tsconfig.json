@@ -1,5 +1,10 @@
 {
-  "exclude": ["src/example/*", "dist/*", "src/**/*.test.ts"],
+  "exclude": [
+    "src/example/*",
+    "dist/*",
+    "src/**/*.test.ts",
+    "vitest.config.ts"
+  ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
