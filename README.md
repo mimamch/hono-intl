@@ -35,26 +35,14 @@ yarn add hono-intl
 // messages/en-US.ts
 export const enUS = {
   global: {
-    welcome: "Welcome to our application!",
-    goodbye: "Thank you for visiting!",
     greeting: "Hello {name}!",
-  },
-  errors: {
-    notFound: "Resource not found",
-    serverError: "Something went wrong",
   },
 };
 
 // messages/id-ID.ts
 export const idID = {
   global: {
-    welcome: "Selamat datang di aplikasi kami!",
-    goodbye: "Terima kasih telah mengunjungi!",
     greeting: "Halo {name}!",
-  },
-  errors: {
-    notFound: "Sumber daya tidak ditemukan",
-    serverError: "Terjadi kesalahan",
   },
 };
 ```
@@ -68,7 +56,7 @@ import { enUS } from "./messages/en-US";
 import { idID } from "./messages/id-ID";
 
 // Create middleware
-const intlMiddleware = createIntlMiddleware({
+export const intl = createIntlMiddleware({
   locales: ["en-US", "id-ID"],
   defaultLocale: "en-US",
   messages: {
@@ -84,7 +72,7 @@ const app = new Hono();
 
 ```typescript
 // With namespace
-app.get("/", intlMiddleware("global"), async (c) => {
+app.get("/", intl("global"), async (c) => {
   return c.json({
     welcome: c.get("intl").get("welcome"),
     greeting: c.get("intl").get("greeting", { name: "John" }),
@@ -92,7 +80,7 @@ app.get("/", intlMiddleware("global"), async (c) => {
 });
 
 // Without namespace (access full key path)
-app.get("/status", intlMiddleware(), async (c) => {
+app.get("/status", intl(), async (c) => {
   return c.json({
     message: c.get("intl").get("global.welcome"),
   });

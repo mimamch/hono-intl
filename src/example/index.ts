@@ -1,11 +1,11 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 
-import { intlMiddleware } from "./intl.middleware";
+import { intl } from "./intl.middleware";
 
-const app = new Hono().get("/", intlMiddleware("global"), async (c) => {
+const app = new Hono().get("/", intl(), async (c) => {
   return c.json({
-    message: c.get("intl").get("goodbye"),
+    message: c.get("intl").get("global.welcome"),
   });
 });
 

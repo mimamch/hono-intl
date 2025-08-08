@@ -2,6 +2,7 @@ export const fr = {
   global: {
     welcome: "Bienvenue dans notre application!",
     goodbye: "Merci de votre visite!",
+    greeting: "Salut {name}, comment ça va aujourd'hui?",
   },
   errors: {
     not_found: "La ressource demandée est introuvable.",
